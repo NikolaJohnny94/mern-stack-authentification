@@ -7,10 +7,14 @@ import { authSelector } from '../../store/selectors/authSelector'
 import { resetRegisteredSuccessfully } from '../../store/actions/authActions'
 import { clearError } from '../../store/actions/authActions'
 
-import type { AppDispatch, AuthInputData } from '../../types'
+import getTokenFromLocalStorage from '../../utils/getTokenFromLocalStorage'
+
+import type { AppDispatch, RegistrationInputData } from '../../types'
 
 export const Registration = () => {
-  const [registrationData, setRegistrationData] = useState({} as AuthInputData)
+  const [registrationData, setRegistrationData] = useState(
+    {} as RegistrationInputData
+  )
   const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate()
 
@@ -27,7 +31,7 @@ export const Registration = () => {
   }, [error])
 
   const onInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    setRegistrationData((prevState: AuthInputData) => ({
+    setRegistrationData((prevState: RegistrationInputData) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }))
@@ -43,7 +47,7 @@ export const Registration = () => {
     )
     setTimeout(() => {
       dispatch(resetRegisteredSuccessfully())
-    }, 2000)
+    }, 5000)
   }
 
   if (loading) {
@@ -52,7 +56,7 @@ export const Registration = () => {
     )
   }
 
-  if (localStorage.getItem('token')) {
+  if (getTokenFromLocalStorage()) {
     return <Navigate to='/user' />
   }
 
@@ -61,7 +65,7 @@ export const Registration = () => {
   }
 
   return (
-    <div className='mt-[65px]'>
+    <form className='mt-[65px]' onSubmit={registerUser}>
       {error !== null && (
         <div className='toast toast-top toast-center mt-[55px]'>
           <div className='alert alert-error text-white'>
@@ -96,13 +100,14 @@ export const Registration = () => {
         />
 
         <button
+          type='submit'
           className='btn btn-active btn-neutral mt-5'
           onClick={registerUser}
         >
           Submit
         </button>
       </div>
-    </div>
+    </form>
   )
 }
 

@@ -20,6 +20,14 @@ class UserService {
     if (userSearchCriteria === UserSearchCriteria.email) {
       return userModel.findOne({ email: searchValue }).select('+password')
     }
+
+    if (userSearchCriteria === UserSearchCriteria.loginIdentifier) {
+      return userModel
+        .findOne({
+          $or: [{ username: searchValue }, { email: searchValue }],
+        })
+        .select('+password')
+    }
   }
 }
 

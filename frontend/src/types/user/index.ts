@@ -1,2 +1,2 @@
 export * from './User.type'
-export * from './UserResponse.type'
+export * from './response/UserResponse.type'

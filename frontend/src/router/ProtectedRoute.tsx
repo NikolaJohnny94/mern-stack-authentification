@@ -1,5 +1,7 @@
 import { Navigate } from 'react-router-dom'
 
+import getTokenFromLocalStorage from '../utils/getTokenFromLocalStorage'
+
 import type { ReactElement, FC } from 'react'
 
 type Props = {
@@ -7,7 +9,7 @@ type Props = {
 }
 
 const ProtectedRoute: FC<Props> = ({ children }) => {
-  if (localStorage.getItem('token')) {
+  if (getTokenFromLocalStorage()) {
     return children || null
   }
 

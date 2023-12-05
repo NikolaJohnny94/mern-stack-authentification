@@ -1,25 +1,27 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
-import AuthService from '../services/api/authService'
+import AuthService from '../../services/auth'
 
+import type { AxiosError } from 'axios'
 import type {
+  LoginInputData,
   LoginResponse,
+  RegistrationInputData,
   RegistrationResponse,
-  AuthInputData,
   LogoutResponse,
   UserResponse,
+  ErrorDataResponse,
 } from '../../types/index'
 
 const authService = new AuthService()
 
 export const registration = createAsyncThunk<
   RegistrationResponse,
-  AuthInputData,
+  RegistrationInputData,
   { rejectValue: string }
 >('auth/registration', async (loginInputData, thunkAPI) => {
   try {
-    const response = await authService.registration(loginInputData)
-    const data = await response.json()
+    const { data } = await authService.registration(loginInputData)
 
     if (!data.success) {
       return thunkAPI.rejectWithValue(data.message)
@@ -27,28 +29,44 @@ export const registration = createAsyncThunk<
       return data
     }
   } catch (e: any) {
-    let error: Error = e
-    return thunkAPI.rejectWithValue(error.message)
+    let error: AxiosError = e
+    let errorMessage: string
+
+    if ((error.response?.data as ErrorDataResponse).message) {
+      errorMessage = (error.response?.data as ErrorDataResponse).message
+    } else {
+      errorMessage = error.message
+    }
+
+    return thunkAPI.rejectWithValue(errorMessage)
   }
 })
 
 export const login = createAsyncThunk<
   LoginResponse,
-  AuthInputData,
+  LoginInputData,
   { rejectValue: string }
 >('auth/login', async (loginInputData, thunkAPI) => {
   try {
-    const response = await authService.login(loginInputData)
-    const data = await response.json()
+    const { data } = await authService.login(loginInputData)
 
     if (!data.success) {
+      console.log(data)
       return thunkAPI.rejectWithValue(data.message)
     } else {
       return data
     }
   } catch (e: any) {
-    let error: Error = e
-    return thunkAPI.rejectWithValue(error.message)
+    let error: AxiosError = e
+    let errorMessage: string
+
+    if ((error.response?.data as ErrorDataResponse).message) {
+      errorMessage = (error.response?.data as ErrorDataResponse).message
+    } else {
+      errorMessage = error.message
+    }
+
+    return thunkAPI.rejectWithValue(errorMessage)
   }
 })
 
@@ -58,8 +76,7 @@ export const logout = createAsyncThunk<
   { rejectValue: string }
 >('auth/logout', async (_, thunkAPI) => {
   try {
-    const response = await authService.logout()
-    const data = await response.json()
+    const { data } = await authService.logout()
 
     if (!data.success) {
       return thunkAPI.rejectWithValue(data.message)
@@ -67,8 +84,16 @@ export const logout = createAsyncThunk<
       return data
     }
   } catch (e: any) {
-    let error: Error = e
-    return thunkAPI.rejectWithValue(error.message)
+    let error: AxiosError = e
+    let errorMessage: string
+
+    if ((error.response?.data as ErrorDataResponse).message) {
+      errorMessage = (error.response?.data as ErrorDataResponse).message
+    } else {
+      errorMessage = error.message
+    }
+
+    return thunkAPI.rejectWithValue(errorMessage)
   }
 })
 
@@ -78,8 +103,7 @@ export const getUser = createAsyncThunk<
   { rejectValue: string }
 >('user/get-user', async (_, thunkAPI) => {
   try {
-    const response = await authService.getUser()
-    const data = await response.json()
+    const { data } = await authService.getUser()
 
     if (!data.success) {
       return thunkAPI.rejectWithValue(data.message)
@@ -87,7 +111,15 @@ export const getUser = createAsyncThunk<
       return data
     }
   } catch (e: any) {
-    let error: Error = e
-    return thunkAPI.rejectWithValue(error.message)
+    let error: AxiosError = e
+    let errorMessage: string
+
+    if ((error.response?.data as ErrorDataResponse).message) {
+      errorMessage = (error.response?.data as ErrorDataResponse).message
+    } else {
+      errorMessage = error.message
+    }
+
+    return thunkAPI.rejectWithValue(errorMessage)
   }
 })

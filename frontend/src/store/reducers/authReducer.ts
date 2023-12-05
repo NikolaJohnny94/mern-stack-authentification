@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+
 import { initialState } from '../states/authState'
 import { login, registration, logout, getUser } from '../thunks/authThunks'
 

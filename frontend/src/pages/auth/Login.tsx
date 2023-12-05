@@ -6,10 +6,12 @@ import { login } from '../../store/thunks/authThunks'
 import { authSelector } from '../../store/selectors/authSelector'
 import { clearError } from '../../store/actions/authActions'
 
-import type { AppDispatch, AuthInputData } from '../../types'
+import getTokenFromLocalStorage from '../../utils/getTokenFromLocalStorage'
+
+import type { AppDispatch, LoginInputData } from '../../types'
 
 export const Login = () => {
-  const [loginData, setLoginData] = useState({} as AuthInputData)
+  const [loginData, setLoginData] = useState({} as LoginInputData)
 
   const dispatch = useDispatch<AppDispatch>()
 
@@ -21,24 +23,27 @@ export const Login = () => {
     if (error !== null) {
       setTimeout(() => {
         dispatch(clearError())
-      }, 3000)
+      }, 5000)
     }
   }, [error])
 
   const onInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    setLoginData((prevState: AuthInputData) => ({
+    setLoginData((prevState: LoginInputData) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }))
   }
 
-  const loginUser = (): void => {
+  const loginUser = (e: any): void => {
+    e.preventDefault()
+
     dispatch(
       login({
-        email: loginData.email,
+        loginIdentifier: loginData.loginIdentifier,
         password: loginData.password,
       })
     )
+    setLoginData({} as LoginInputData)
   }
 
   if (loading) {
@@ -50,7 +55,7 @@ export const Login = () => {
   if (
     loggedInSuccessfully === null &&
     user === null &&
-    localStorage.getItem('token')
+    getTokenFromLocalStorage()
   ) {
     return <Navigate to='/user' />
   }
@@ -60,7 +65,7 @@ export const Login = () => {
   }
 
   return (
-    <div className='mt-[65px]'>
+    <form className='mt-[65px]' onSubmit={loginUser}>
       {error !== null && (
         <div className='toast toast-top toast-center mt-[55px]'>
           <div className='alert alert-error text-white'>
@@ -72,8 +77,8 @@ export const Login = () => {
       <div className='flex flex-col justify-center items-center w-[400px] m-auto'>
         <input
           type='text'
-          name='email'
-          placeholder='Type your email here'
+          name='loginIdentifier'
+          placeholder='Enter your username or email'
           className='input input-bordered w-full max-w-xs'
           onChange={onInputChange}
         />
@@ -81,15 +86,19 @@ export const Login = () => {
         <input
           type='password'
           name='password'
-          placeholder='Type your password here'
+          placeholder='Enter your password'
           className='input input-bordered w-full max-w-xs'
           onChange={onInputChange}
         />
 
-        <button className='btn btn-active btn-neutral mt-5' onClick={loginUser}>
+        <button
+          type='submit'
+          className='btn btn-active btn-neutral mt-5'
+          onClick={loginUser}
+        >
           Submit
         </button>
       </div>
-    </div>
+    </form>
   )
 }

@@ -17,14 +17,17 @@ export const registerUser = asyncHandler(
 )
 
 export const loginUser = asyncHandler(async (req: Request, res: Response) => {
-  const { email, password } = req.body
+  const { loginIdentifier, password } = req.body
 
-  const user = await userService.findUser(UserSearchCriteria.email, email)
+  const user = await userService.findUser(
+    UserSearchCriteria.loginIdentifier,
+    loginIdentifier
+  )
 
   if (!user) {
     res.status(401).json({
       success: false,
-      message: `User with the email ${email} doesn't exist!`,
+      message: `User with the login identifier ${loginIdentifier} doesn't exist!`,
     })
   }
 
@@ -33,7 +36,7 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
   if (!checkPassword) {
     res.status(401).json({
       success: false,
-      message: `User with the password ${checkPassword} doesn't exist!`,
+      message: `User with the password ${password} doesn't exist!`,
     })
   } else {
     const token = user?.generateToken()
