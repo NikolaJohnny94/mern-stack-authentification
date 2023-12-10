@@ -31,10 +31,9 @@ const authSlice = createSlice({
         (state, action: PayloadAction<LoginResponse>) => {
           if (action.payload.success) {
             localStorage.setItem('token', action.payload.token)
-            state.loggedInSuccessfully = true
+            localStorage.setItem('refreshToken', action.payload.refreshToken)
             state.loading = false
           } else {
-            state.loggedInSuccessfully = false
             state.loading = false
           }
         }
@@ -88,11 +87,15 @@ const authSlice = createSlice({
         (state, action: PayloadAction<LogoutResponse>) => {
           if (action.payload.success) {
             localStorage.removeItem('token')
-            state.loggedInSuccessfully = null
+            localStorage.removeItem('refreshToken')
+            state.loading = false
             state.user = null
           }
         }
       )
+      .addCase(logout.pending, (state) => {
+        state.loading = true
+      })
       // Get User
       .addCase(
         getUser.fulfilled,

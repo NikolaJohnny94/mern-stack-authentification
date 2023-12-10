@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../store/thunks/authThunks'
 import { authSelector } from '../store/selectors/authSelector'
 
-import checkIfUserIsEmpty from '../utils/checkIfUserIsEmpty'
+import getTokenFromLocalStorage from '../utils/getTokenFromLocalStorage'
+import checkIfTokenExists from '../utils/checkIfTokenExists'
 
 const Navbar = () => {
   const dispatch = useDispatch<any>()
@@ -22,7 +23,7 @@ const Navbar = () => {
     <div className='navbar bg-base-100'>
       <div className='flex-1'>
         <Link className='btn btn-ghost text-xl' to='/user'>
-          {user && !checkIfUserIsEmpty(user) && (
+          {checkIfTokenExists() && (
             <>
               <svg
                 fill='currentColor'
@@ -32,7 +33,7 @@ const Navbar = () => {
               >
                 <path d='M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 100-6 3 3 0 000 6z' />
               </svg>
-              {user.username}
+              {user?.username}
               {}
             </>
           )}
@@ -40,7 +41,7 @@ const Navbar = () => {
       </div>
       <div className='flex-none'>
         <ul className='menu menu-horizontal px-1'>
-          {user && !checkIfUserIsEmpty(user) ? (
+          {checkIfTokenExists() ? (
             <li onClick={logoutUser}>
               <a>Logout</a>
             </li>

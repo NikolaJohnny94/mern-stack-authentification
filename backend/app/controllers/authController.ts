@@ -1,8 +1,12 @@
 import asyncHandler from 'express-async-handler'
+import jwt from 'jsonwebtoken'
+
 import UserService from '../services/api/userService'
 import { UserSearchCriteria } from '../enums/UserSearchCriteria.enum'
 
 import type { Request, Response } from 'express'
+import type { Jwt, VerifyErrors, VerifyOptions } from 'jsonwebtoken'
+import type { JwtPayloadResponse } from '../types/responses/JwtPayloadResponse.type'
 
 const userService = new UserService()
 
@@ -39,15 +43,42 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
       message: `User with the password ${password} doesn't exist!`,
     })
   } else {
-    const token = user?.generateToken()
+    const accessToken = user?.generateToken()
+    const refreshToken = user?.generateRefreshToken()
 
     res.status(200).json({
       success: true,
       message: 'User successfully logged in!',
-      token,
+      token: accessToken,
+      refreshToken,
     })
   }
 })
+
+export const refreshToken = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { id } = req.decodedRefreshToken as JwtPayloadResponse
+
+    jwt.sign(
+      { id },
+      process.env.JWT_ACCESS_SECRET as string,
+      { expiresIn: process.env.JWT_EXPIRES },
+      (error: Error | null, encodedToken: string | undefined) => {
+        if (error) {
+          res.status(500).json({
+            success: false,
+            message: 'Error occured while trying to asign new access token',
+          })
+        } else {
+          res.status(200).json({
+            success: true,
+            token: encodedToken,
+          })
+        }
+      }
+    )
+  }
+)
 
 export const logoutUser = asyncHandler(async (req: Request, res: Response) => {
   res

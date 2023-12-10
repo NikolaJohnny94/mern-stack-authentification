@@ -1,16 +1,18 @@
 import asyncHandler from 'express-async-handler'
 import jwt from 'jsonwebtoken'
+
 import UserService from '../services/api/userService'
 import { UserSearchCriteria } from '../enums/UserSearchCriteria.enum'
 
 import type { Request, Response, NextFunction } from 'express'
-import type { JwtPayload } from '../types/JwtPayload.type'
+import type { Jwt, VerifyErrors, VerifyOptions } from 'jsonwebtoken'
+import type { JwtPayloadResponse } from '../types/responses/JwtPayloadResponse.type'
 
 const userService = new UserService()
 
 export const protectedRoute = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    let token: string = ''
+    let token = ''
 
     if (
       req.headers.authorization &&
@@ -25,16 +27,77 @@ export const protectedRoute = asyncHandler(
         message: 'User is not authorised to access this route!',
       })
     } else {
-      const decodedToken = jwt.verify(
+      jwt.verify(
         token,
-        `${process.env.JWT_SECRET}`
-      ) as JwtPayload
+        process.env.JWT_ACCESS_SECRET as string,
+        {} as VerifyOptions & { complete: true },
+        async (
+          error: VerifyErrors | null,
+          decodedJwtPayload: Jwt | undefined
+        ) => {
+          if (error) {
+            res.status(401).json({
+              sucsess: false,
+              message: `User is not authorized to access this route! The access token ${
+                error.message === 'jwt expired' ? 'expired!' : 'is not valid!'
+              }`,
+            })
+          } else {
+            if (decodedJwtPayload) {
+              const { id } = decodedJwtPayload as JwtPayloadResponse
 
-      const { id } = decodedToken
+              req.user = await userService.findUser(UserSearchCriteria.id, id)
 
-      req.user = await userService.findUser(UserSearchCriteria.id, id)
+              next()
+            } else {
+              res.status(500).json({
+                success: false,
+                message: 'Decoded refresh token is undefined!',
+              })
+            }
+          }
+        }
+      )
+    }
+  }
+)
 
-      next()
+export const protectedRefreshTokenRoute = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const refreshToken = req.body.token
+
+    if (!refreshToken) {
+      res.status(401).json({
+        success: false,
+        message:
+          'User is not authorized to access this route! Refresh token not provided!',
+      })
+    } else {
+      jwt.verify(
+        refreshToken,
+        process.env.JWT_REFRESH_SECRET as string,
+        {} as VerifyOptions & { complete: true },
+        (error: VerifyErrors | null, decodedToken: Jwt | undefined) => {
+          if (error) {
+            res.status(401).json({
+              success: false,
+              message:
+                "User doesn't have a permission to access this route. Refresh token is not valid!",
+            })
+          } else {
+            if (decodedToken) {
+              req.decodedRefreshToken = decodedToken
+
+              next()
+            } else {
+              res.status(500).json({
+                success: false,
+                message: 'Decoded refresh token is undefined!',
+              })
+            }
+          }
+        }
+      )
     }
   }
 )

@@ -5,5 +5,6 @@ export type User = {
   password: string
   role: string
   generateToken: () => string
+  generateRefreshToken: () => string
   checkPassword: (providedPassword: string) => boolean
 }

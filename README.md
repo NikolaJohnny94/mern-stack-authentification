@@ -1,4 +1,4 @@
-# <img src="https://cdn.icon-icons.com/icons2/2415/PNG/512/mongodb_original_logo_icon_146424.png" width="32px"> <img src="https://cdn.icon-icons.com/icons2/2699/PNG/512/expressjs_logo_icon_169185.png" width="32px"/> MERN <img src="https://cdn.icon-icons.com/icons2/2415/PNG/512/react_original_logo_icon_146374.png" width="28px"/> <img src="https://cdn.icon-icons.com/icons2/2415/PNG/512/nodejs_plain_logo_icon_146409.png" width="32px"/> Stack + TypeScript <img src="https://cdn.icon-icons.com/icons2/2415/PNG/72/typescript_plain_logo_icon_146316.png" width="32px"/> , Redux Toolkit <img src='https://cdn.icon-icons.com/icons2/2415/PNG/512/redux_original_logo_icon_146365.png' width='26px'> , JWT <img src='https://jwt.io/img/pic_logo.svg' width='26px'> and daisyUI Authentification App 🙌
+# <img src="https://cdn.icon-icons.com/icons2/2415/PNG/512/mongodb_original_logo_icon_146424.png" width="32px"> <img src="https://cdn.icon-icons.com/icons2/2699/PNG/512/expressjs_logo_icon_169185.png" width="32px"/> MERN <img src="https://cdn.icon-icons.com/icons2/2415/PNG/512/react_original_logo_icon_146374.png" width="28px"/> <img src="https://cdn.icon-icons.com/icons2/2415/PNG/512/nodejs_plain_logo_icon_146409.png" width="32px"/> Stack + TypeScript <img src="https://cdn.icon-icons.com/icons2/2415/PNG/72/typescript_plain_logo_icon_146316.png" width="32px"/> , Redux Toolkit <img src='https://cdn.icon-icons.com/icons2/2415/PNG/512/redux_original_logo_icon_146365.png' width='26px'> , JWT <img src='https://jwt.io/img/pic_logo.svg' width='26px'> and daisyUI authentification app with refresh token logic 🙌
 
 ### 💻 Stack: <br/>
 
@@ -15,11 +15,16 @@
 
 ## Description 📜
 
-MERN stack Authentification App that uses TypeScript for type checking, JWT for generating and verifying tokens and Redux Toolkit for state management.🤗<br>
+### MERN stack authentification app with refresh token logic that uses TypeScript for type checking, JWT for generating and verifying tokens, Redux Toolkit for state management and daisyUI for UI.🤗<br>
 
-User have option to register new account and to login if account is registered successfully.<br>
-Upon every successfull login, user gets access token, that is stored in the **localStorage** and that is sent upon requests to the protected routes.<br> When sending requests to protected routes **/logout**, **/me**, the request is intercepted in the middleware and the token is decoded.<br>If token is valid user gets the adequate response. After user is decoded there is another middleware _**isAuthorized**_ that check if user is authorized to access the route based on the user's role.<br>
-If everything is ok user gets access to **/me** endpoint where user gets it's data and to **/logout** endpoint where user can logout.
+User have option to **register** new account and to **login** if account is registered successfully.<br>
+Upon every successfull **login**, user gets **refresh** and **access** token (_expires in 20 minutes_), that is stored in the **localStorage** and that is sent upon requests to the _protected routes_ ( **/logout** and **/me** ).<br> <br>
+When sending requests to _protected routes_ ( **/logout** and **/me** ), the request is intercepted in the middleware and the token is decoded.
+If token is valid, user gets the adequate response.<br><br>
+After user is decoded there is _**isAuthorized**_ middleware, that checks if user is authorized to access the route based on the user's role.
+If everything is sucessfull, user gets access to **/me** and **/logout** endpoint.<br><br>
+If client gets a message that the access token expired when trying to send a request to **/me** endpoint, **_axios_** interceptors sends another request to **/refresh-token** route, where **_refresh token_** is decoded and new **_access token_** is generated.
+If this is _successfull_, the initial request to **/me** route is sent one more time with new **access token**, which if it is decoded **successfully**, user gets access to **/me** and **/logout** route again.
 
 ## Requirements ⚙️
 
@@ -29,12 +34,12 @@ Install node modules: <br>
 npm install
 ```
 
-### Create .env file and add values🍃
+## Back-End 🌐
+
+### Create .env file and add values 📜
 
 In the **./backend** folder create **.env** file.<br>
 Copy content from **example.env** file, and add missing values (**MONGO_URL**, **JWT_SECRET**), and change existing values to your preferance if you want.
-
-## Back-End 🌐
 
 ### Routes: <br>
 
@@ -49,12 +54,21 @@ Copy content from **example.env** file, and add missing values (**MONGO_URL**, *
 
 ### Authorized routes: <br>
 
-When sending request, set authorization header -> 'Authorization' : 'Bearer ${token}'<br/>
+When sending request to **/me** and **/logout** endpoints, set authorization header -> 'Authorization' : 'Bearer ${token}'<br/>
 
 - /api/auth/me [GET]<br/>
   **Description**: Get currently logged user <br/>
 - /api/auth/loggout [POST]<br/>
   **Description**: Loggout currentyl logged user <br/>
+- /api/auth/refresh-token [POST]<br/>
+  **Description**: Decode refresh token and generate new access token <br/>
+  **Required fields**: token
+
+### Front-End 🖼️
+
+### .env file 📜
+
+If you change the API base url of a Back-End application (values of **BASE_URL** and **PORT** in **./backend/.env** file), then you need to change the value of **REACT_APP_API_BASE_URL** in the **./frontend/.env** file aswell.
 
 ## Run the dev server 👨‍💻
 
@@ -63,8 +77,6 @@ Navigate to **backend** folder and run:
 ```
 npm run dev
 ```
-
-### Front-End 🖼️
 
 Navigate to **frontend** folder and run:
 

@@ -1,13 +1,17 @@
-import { ChangeEvent, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Navigate } from 'react-router-dom'
 
 import { login } from '../../store/thunks/authThunks'
 import { authSelector } from '../../store/selectors/authSelector'
-import { clearError } from '../../store/actions/authActions'
+import {
+  clearError,
+  resetRegisteredSuccessfully,
+} from '../../store/actions/authActions'
 
-import getTokenFromLocalStorage from '../../utils/getTokenFromLocalStorage'
+import checkIfTokenExists from '../../utils/checkIfTokenExists'
 
+import type { ChangeEvent, FormEvent } from 'react'
 import type { AppDispatch, LoginInputData } from '../../types'
 
 export const Login = () => {
@@ -17,7 +21,7 @@ export const Login = () => {
 
   const auth = useSelector(authSelector)
 
-  const { loading, loggedInSuccessfully, user, error } = auth
+  const { loading, error, registeredSuccessfully } = auth
 
   useEffect(() => {
     if (error !== null) {
@@ -27,6 +31,12 @@ export const Login = () => {
     }
   }, [error])
 
+  useEffect(() => {
+    if (registeredSuccessfully) {
+      dispatch(resetRegisteredSuccessfully())
+    }
+  }, [registeredSuccessfully])
+
   const onInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setLoginData((prevState: LoginInputData) => ({
       ...prevState,
@@ -34,7 +44,7 @@ export const Login = () => {
     }))
   }
 
-  const loginUser = (e: any): void => {
+  const loginUser = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault()
 
     dispatch(
@@ -52,15 +62,7 @@ export const Login = () => {
     )
   }
 
-  if (
-    loggedInSuccessfully === null &&
-    user === null &&
-    getTokenFromLocalStorage()
-  ) {
-    return <Navigate to='/user' />
-  }
-
-  if (loggedInSuccessfully && user === null) {
+  if (checkIfTokenExists()) {
     return <Navigate to='/user' />
   }
 
@@ -90,12 +92,7 @@ export const Login = () => {
           className='input input-bordered w-full max-w-xs'
           onChange={onInputChange}
         />
-
-        <button
-          type='submit'
-          className='btn btn-active btn-neutral mt-5'
-          onClick={loginUser}
-        >
+        <button type='submit' className='btn btn-active btn-neutral mt-5'>
           Submit
         </button>
       </div>

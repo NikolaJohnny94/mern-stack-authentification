@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom'
 
-import getTokenFromLocalStorage from '../utils/getTokenFromLocalStorage'
+import checkIfTokenExists from '../utils/checkIfTokenExists'
 
 import type { ReactElement, FC } from 'react'
 
@@ -9,7 +9,7 @@ type Props = {
 }
 
 const ProtectedRoute: FC<Props> = ({ children }) => {
-  if (getTokenFromLocalStorage()) {
+  if (checkIfTokenExists()) {
     return children || null
   }
 

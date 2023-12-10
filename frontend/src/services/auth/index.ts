@@ -1,11 +1,11 @@
-import api from '../../api'
+import axios from 'axios'
+import api from '../../api/index'
 
 import type { RegistrationInputData, LoginInputData } from '../../types'
 
 class AuthService {
   registration(registrationData: RegistrationInputData) {
     const { username, email, password } = registrationData
-
     return api.post('/api/auth/register', {
       username,
       email,
@@ -15,7 +15,6 @@ class AuthService {
 
   login(loginData: LoginInputData) {
     const { loginIdentifier, password } = loginData
-
     return api.post('/api/auth/login', {
       loginIdentifier,
       password,

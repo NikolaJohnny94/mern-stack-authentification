@@ -6,7 +6,7 @@ import type { User } from '../types/User.type'
 
 const userSchema = new Schema<User>(
   {
-     username: {
+    username: {
       type: String,
       required: [true, 'Please add value for username field'],
       unique: true,
@@ -54,11 +54,14 @@ userSchema.pre('save', async function (next) {
 })
 
 userSchema.methods.generateToken = function () {
-  const token = jwt.sign(
-    { id: this._id },
-    `${process.env.JWT_SECRET}`,
-    { expiresIn: process.env.JWT_EXPIRES }
-  )
+  const token = jwt.sign({ id: this._id }, `${process.env.JWT_ACCESS_SECRET}`, {
+    expiresIn: process.env.JWT_EXPIRES,
+  })
+  return token
+}
+
+userSchema.methods.generateRefreshToken = function () {
+  const token = jwt.sign({ id: this._id }, `${process.env.JWT_REFRESH_SECRET}`)
   return token
 }
 
