@@ -10,7 +10,7 @@ import {
 
 const router = Router()
 
-router.route('/register').post(registerUser)
+router.route('/registration').post(registerUser)
 router.route('/login').post(loginUser)
 router.route('/logout').post(protectedRoute, logoutUser)
 router.route('/me').get(protectedRoute, getLoggedUser)

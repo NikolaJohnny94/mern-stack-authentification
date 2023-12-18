@@ -9,6 +9,10 @@ const userSchema = new Schema<User>(
     username: {
       type: String,
       required: [true, 'Please add value for username field'],
+      match: [
+        /^[a-zA-Z0-9_-]{3,15}$/,
+        'Username should be at least 3 characters long and most 15 characters long. It can consist of alphanumerical characters, underscores and hyphens and starts and ends with alphanumerical characters.',
+      ],
       unique: true,
     },
     email: {

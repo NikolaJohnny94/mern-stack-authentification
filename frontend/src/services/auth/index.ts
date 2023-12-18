@@ -6,7 +6,7 @@ import type { RegistrationInputData, LoginInputData } from '../../types'
 class AuthService {
   registration(registrationData: RegistrationInputData) {
     const { username, email, password } = registrationData
-    return api.post('/api/auth/register', {
+    return api.post('/api/auth/registration', {
       username,
       email,
       password,

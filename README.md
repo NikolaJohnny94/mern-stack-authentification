@@ -1,4 +1,4 @@
-# <img src="https://cdn.icon-icons.com/icons2/2415/PNG/512/mongodb_original_logo_icon_146424.png" width="32px"> <img src="https://cdn.icon-icons.com/icons2/2699/PNG/512/expressjs_logo_icon_169185.png" width="32px"/> MERN <img src="https://cdn.icon-icons.com/icons2/2415/PNG/512/react_original_logo_icon_146374.png" width="28px"/> <img src="https://cdn.icon-icons.com/icons2/2415/PNG/512/nodejs_plain_logo_icon_146409.png" width="32px"/> Stack + TypeScript <img src="https://cdn.icon-icons.com/icons2/2415/PNG/72/typescript_plain_logo_icon_146316.png" width="32px"/> , Redux Toolkit <img src='https://cdn.icon-icons.com/icons2/2415/PNG/512/redux_original_logo_icon_146365.png' width='26px'> , JWT <img src='https://jwt.io/img/pic_logo.svg' width='26px'> and daisyUI authentification app with refresh token logic 🙌
+# <img src="https://cdn.icon-icons.com/icons2/2415/PNG/512/mongodb_original_logo_icon_146424.png" width="32px"> <img src="https://cdn.icon-icons.com/icons2/2699/PNG/512/expressjs_logo_icon_169185.png" width="32px"/> MERN <img src="https://cdn.icon-icons.com/icons2/2415/PNG/512/react_original_logo_icon_146374.png" width="28px"/> <img src="https://cdn.icon-icons.com/icons2/2415/PNG/512/nodejs_plain_logo_icon_146409.png" width="32px"/> Stack + TypeScript <img src="https://cdn.icon-icons.com/icons2/2415/PNG/512/typescript_plain_logo_icon_146316.png" width="32px"/> , Redux Toolkit <img src='https://cdn.icon-icons.com/icons2/2415/PNG/512/redux_original_logo_icon_146365.png' width='26px'> , Formik <img src='https://user-images.githubusercontent.com/4060187/61057426-4e5a4600-a3c3-11e9-9114-630743e05814.png' width='48px'> , Yup <img src='https://cdn.icon-icons.com/icons2/2000/PNG/512/cool_smiley_sunglasses_icon_123402.png' width='20px'> , JWT <img src='https://jwt.io/img/pic_logo.svg' width='26px'> and daisyUI authentification app, with refresh token logic 🙌
 
 ### 💻 Stack: <br/>
 
@@ -8,14 +8,18 @@
 <img src="https://cdn.icon-icons.com/icons2/2415/PNG/512/nodejs_plain_logo_icon_146409.png" width="20px"/> [[N]ode.js](https://nodejs.org/en/)<br>
 ➕
 
-<img src="https://cdn.icon-icons.com/icons2/2415/PNG/72/typescript_plain_logo_icon_146316.png" width="20"/> [TypeScript](https://www.typescriptlang.org/)<br/>
-<img src="https://cdn.icon-icons.com/icons2/2415/PNG/72/redux_original_logo_icon_146365.png" width="20"/> [Redux Toolkit](https://redux-toolkit.js.org/)<br/>
+<img src="https://cdn.icon-icons.com/icons2/2415/PNG/512/typescript_plain_logo_icon_146316.png" width="20"/> [TypeScript](https://www.typescriptlang.org/)<br/>
+<img src="https://cdn.icon-icons.com/icons2/2415/PNG/512/redux_original_logo_icon_146365.png" width="20"/> [Redux Toolkit](https://redux-toolkit.js.org/)<br/>
+<img src='https://user-images.githubusercontent.com/4060187/61057426-4e5a4600-a3c3-11e9-9114-630743e05814.png' width='24px'> [Formik](https://formik.org/)
+<br/>
+<img src='https://cdn.icon-icons.com/icons2/2000/PNG/512/cool_smiley_sunglasses_icon_123402.png' width='20px'> [Yup](https://www.npmjs.com/package/yup)
+<br/>
 <img src='https://cdn.icon-icons.com/icons2/3914/PNG/512/daisyui_logo_icon_249080.png' width='32px'>[daisyUI](https://daisyui.com/)<br/>
 <img src='https://jwt.io/img/pic_logo.svg' width='26px'> [JWT](https://jwt.io/)
 
-## Description 📜
+## Description 📑
 
-### MERN stack authentification app with refresh token logic that uses TypeScript for type checking, JWT for generating and verifying tokens, Redux Toolkit for state management and daisyUI for UI.🤗<br>
+### MERN stack authentification app with refresh token logic that uses TypeScript for type checking, JWT for generating and verifying tokens, Redux Toolkit for state management, Formik for handling forms, Yup as schema validation and daisyUI for UI.🤗<br>
 
 User have option to **register** new account and to **login** if account is registered successfully.<br>
 Upon every successfull **login**, user gets **refresh** and **access** token (_expires in 20 minutes_), that is stored in the **localStorage** and that is sent upon requests to the _protected routes_ ( **/logout** and **/me** ).<br> <br>
@@ -36,7 +40,7 @@ npm install
 
 ## Back-End 🌐
 
-### Create .env file and add values 📜
+### Create .env file and add values 📄
 
 In the **./backend** folder create **.env** file.<br>
 Copy content from **example.env** file, and add missing values (**MONGO_URL**, **JWT_SECRET**), and change existing values to your preferance if you want.
@@ -66,7 +70,7 @@ When sending request to **/me** and **/logout** endpoints, set authorization hea
 
 ### Front-End 🖼️
 
-### .env file 📜
+### .env file 📄
 
 If you change the API base url of a Back-End application (values of **BASE_URL** and **PORT** in **./backend/.env** file), then you need to change the value of **REACT_APP_API_BASE_URL** in the **./frontend/.env** file aswell.
 

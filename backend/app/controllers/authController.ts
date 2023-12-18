@@ -5,7 +5,6 @@ import UserService from '../services/api/userService'
 import { UserSearchCriteria } from '../enums/UserSearchCriteria.enum'
 
 import type { Request, Response } from 'express'
-import type { Jwt, VerifyErrors, VerifyOptions } from 'jsonwebtoken'
 import type { JwtPayloadResponse } from '../types/responses/JwtPayloadResponse.type'
 
 const userService = new UserService()
@@ -29,29 +28,29 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
   )
 
   if (!user) {
-    res.status(401).json({
+    res.status(404).json({
       success: false,
-      message: `User with the login identifier ${loginIdentifier} doesn't exist!`,
-    })
-  }
-
-  const checkPassword = await user?.checkPassword(password)
-
-  if (!checkPassword) {
-    res.status(401).json({
-      success: false,
-      message: `User with the password ${password} doesn't exist!`,
+      message: `User with the username/email: ${loginIdentifier} doesn't exist!`,
     })
   } else {
-    const accessToken = user?.generateToken()
-    const refreshToken = user?.generateRefreshToken()
+    const checkPassword = await user?.checkPassword(password)
 
-    res.status(200).json({
-      success: true,
-      message: 'User successfully logged in!',
-      token: accessToken,
-      refreshToken,
-    })
+    if (!checkPassword) {
+      res.status(404).json({
+        success: false,
+        message: `User with provided password doesn't exist!`,
+      })
+    } else {
+      const accessToken = user?.generateToken()
+      const refreshToken = user?.generateRefreshToken()
+
+      res.status(200).json({
+        success: true,
+        message: 'User successfully logged in!',
+        token: accessToken,
+        refreshToken,
+      })
+    }
   }
 })
 
