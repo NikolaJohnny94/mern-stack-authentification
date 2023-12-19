@@ -10,6 +10,8 @@ import { clearError } from '../../store/actions/authActions'
 import registrationValidationSchema from '../../schemas/validation/registrationValidationSchema'
 import checkIfTokenExists from '../../utils/checkIfTokenExists'
 
+import { LoadingSpinner, ValidationError } from '../../components'
+
 import type { AppDispatch, RegistrationInputData } from '../../types'
 
 export const Registration = () => {
@@ -56,9 +58,7 @@ export const Registration = () => {
   }, [registeredSuccessfully])
 
   if (loading) {
-    return (
-      <span className='block m-auto loading loading-bars loading-lg'></span>
-    )
+    return <LoadingSpinner />
   }
 
   if (checkIfTokenExists()) {
@@ -87,7 +87,7 @@ export const Registration = () => {
           value={formik.values.username}
         />
         {formik.touched.username && formik.errors.username && (
-          <span className='text-red-500 pt-3'>{formik.errors.username}</span>
+          <ValidationError message={formik.errors.username} />
         )}
         <br />
         <input
@@ -101,7 +101,7 @@ export const Registration = () => {
           value={formik.values.email}
         />
         {formik.touched.email && formik.errors.email && (
-          <span className='text-red-500 pt-3'>{formik.errors.email}</span>
+          <ValidationError message={formik.errors.email} />
         )}
         <br />
         <input
@@ -115,7 +115,7 @@ export const Registration = () => {
           value={formik.values.password}
         />
         {formik.touched.password && formik.errors.password && (
-          <span className='text-red-500 pt-3'>{formik.errors.password}</span>
+          <ValidationError message={formik.errors.password} />
         )}
         <br />
         <input
@@ -129,9 +129,7 @@ export const Registration = () => {
           value={formik.values.confirmPassword}
         />
         {formik.touched.confirmPassword && formik.errors.confirmPassword && (
-          <span className='text-red-500 pt-3'>
-            {formik.errors.confirmPassword}
-          </span>
+          <ValidationError message={formik.errors.confirmPassword} />
         )}
         <button type='submit' className='btn btn-active btn-neutral mt-5'>
           Submit

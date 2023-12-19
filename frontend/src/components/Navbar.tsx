@@ -4,10 +4,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../store/thunks/authThunks'
 import { authSelector } from '../store/selectors/authSelector'
 
-import getTokenFromLocalStorage from '../utils/getTokenFromLocalStorage'
 import checkIfTokenExists from '../utils/checkIfTokenExists'
 
-const Navbar = () => {
+export const Navbar = () => {
   const dispatch = useDispatch<any>()
   const navigate = useNavigate()
 
@@ -60,5 +59,3 @@ const Navbar = () => {
     </div>
   )
 }
-
-export default Navbar

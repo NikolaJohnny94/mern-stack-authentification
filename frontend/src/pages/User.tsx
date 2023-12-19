@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom'
 import { getUser } from '../store/thunks/authThunks'
 import { authSelector } from '../store/selectors/authSelector'
 
+import { LoadingSpinner } from '../components'
+
 import type { AppDispatch } from '../types'
 
 export const User = () => {
@@ -23,9 +25,7 @@ export const User = () => {
   }, [error])
 
   if (loading) {
-    return (
-      <span className='block m-auto loading loading-bars loading-lg mt-[100px]'></span>
-    )
+    return <LoadingSpinner />
   }
 
   return (

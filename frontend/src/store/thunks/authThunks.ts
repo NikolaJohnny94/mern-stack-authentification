@@ -51,7 +51,6 @@ export const login = createAsyncThunk<
     const { data } = await authService.login(loginInputData)
 
     if (!data.success) {
-      console.log(data)
       return thunkAPI.rejectWithValue(data.message)
     } else {
       return data

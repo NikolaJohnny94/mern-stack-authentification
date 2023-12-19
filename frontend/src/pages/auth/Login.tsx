@@ -13,6 +13,8 @@ import {
 import loginValidationSchema from '../../schemas/validation/loginValidationSchema'
 import checkIfTokenExists from '../../utils/checkIfTokenExists'
 
+import { LoadingSpinner, ValidationError } from '../../components/index'
+
 import type { AppDispatch, LoginInputData } from '../../types'
 
 export const Login = () => {
@@ -54,9 +56,7 @@ export const Login = () => {
   }, [registeredSuccessfully])
 
   if (loading) {
-    return (
-      <span className='block m-auto loading loading-bars loading-lg'></span>
-    )
+    return <LoadingSpinner />
   }
 
   if (checkIfTokenExists()) {
@@ -85,9 +85,7 @@ export const Login = () => {
           value={formik.values.loginIdentifier}
         />
         {formik.touched.loginIdentifier && formik.errors.loginIdentifier && (
-          <span className='text-red-500 pt-3'>
-            {formik.errors.loginIdentifier}
-          </span>
+          <ValidationError message={formik.errors.loginIdentifier} />
         )}
         <br />
         <input
@@ -101,7 +99,7 @@ export const Login = () => {
           value={formik.values.password}
         />
         {formik.touched.password && formik.errors.password && (
-          <span className='text-red-500 pt-3'>{formik.errors.password}</span>
+          <ValidationError message={formik.errors.password} />
         )}
         <button type='submit' className='btn btn-active btn-neutral mt-5'>
           Submit
