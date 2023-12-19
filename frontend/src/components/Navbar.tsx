@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../store/thunks/authThunks'
 import { authSelector } from '../store/selectors/authSelector'
 
-import checkIfTokenExists from '../utils/checkIfTokenExists'
+import { checkIfTokenExists } from '../utils'
 
 export const Navbar = () => {
   const dispatch = useDispatch<any>()

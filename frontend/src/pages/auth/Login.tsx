@@ -10,8 +10,8 @@ import {
   resetRegisteredSuccessfully,
 } from '../../store/actions/authActions'
 
+import { checkIfTokenExists } from '../../utils'
 import loginValidationSchema from '../../schemas/validation/loginValidationSchema'
-import checkIfTokenExists from '../../utils/checkIfTokenExists'
 
 import { LoadingSpinner, ValidationError } from '../../components/index'
 

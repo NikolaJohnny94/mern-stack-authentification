@@ -8,7 +8,7 @@ import { authSelector } from '../../store/selectors/authSelector'
 import { clearError } from '../../store/actions/authActions'
 
 import registrationValidationSchema from '../../schemas/validation/registrationValidationSchema'
-import checkIfTokenExists from '../../utils/checkIfTokenExists'
+import { checkIfTokenExists } from '../../utils'
 
 import { LoadingSpinner, ValidationError } from '../../components'
 

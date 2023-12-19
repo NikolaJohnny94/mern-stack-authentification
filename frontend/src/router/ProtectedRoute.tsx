@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom'
 
-import checkIfTokenExists from '../utils/checkIfTokenExists'
+import { checkIfTokenExists } from '../utils'
 
 import type { ReactElement, FC } from 'react'
 
