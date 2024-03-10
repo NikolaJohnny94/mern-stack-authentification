@@ -1,4 +1,4 @@
-# <img src="https://cdn.icon-icons.com/icons2/2415/PNG/512/mongodb_original_logo_icon_146424.png" width="32px"> <img src="https://cdn.icon-icons.com/icons2/2699/PNG/512/expressjs_logo_icon_169185.png" width="32px"/> MERN <img src="https://cdn.icon-icons.com/icons2/2415/PNG/512/react_original_logo_icon_146374.png" width="28px"/> <img src="https://cdn.icon-icons.com/icons2/2415/PNG/512/nodejs_plain_logo_icon_146409.png" width="32px"/> Stack + TypeScript <img src="https://cdn.icon-icons.com/icons2/2415/PNG/512/typescript_plain_logo_icon_146316.png" width="32px"/> , Redux Toolkit <img src='https://cdn.icon-icons.com/icons2/2415/PNG/512/redux_original_logo_icon_146365.png' width='26px'> , Formik <img src='https://user-images.githubusercontent.com/4060187/61057426-4e5a4600-a3c3-11e9-9114-630743e05814.png' width='48px'> , Yup <img src='https://cdn.icon-icons.com/icons2/2000/PNG/512/cool_smiley_sunglasses_icon_123402.png' width='20px'> , JWT <img src='https://jwt.io/img/pic_logo.svg' width='26px'> and daisyUI authentification app, with refresh token logic 🙌
+# <img src="https://cdn.icon-icons.com/icons2/2107/PNG/512/file_type_docker_icon_130643.png" width="36"/> Dockerized <img src="https://cdn.icon-icons.com/icons2/2415/PNG/512/mongodb_original_logo_icon_146424.png" width="32px"> <img src="https://cdn.icon-icons.com/icons2/2699/PNG/512/expressjs_logo_icon_169185.png" width="32px"/> MERN <img src="https://cdn.icon-icons.com/icons2/2415/PNG/512/react_original_logo_icon_146374.png" width="28px"/> <img src="https://cdn.icon-icons.com/icons2/2415/PNG/512/nodejs_plain_logo_icon_146409.png" width="32px"/> Stack + TypeScript <img src="https://cdn.icon-icons.com/icons2/2415/PNG/512/typescript_plain_logo_icon_146316.png" width="32px"/> , Redux Toolkit <img src='https://cdn.icon-icons.com/icons2/2415/PNG/512/redux_original_logo_icon_146365.png' width='26px'> , Formik <img src='https://user-images.githubusercontent.com/4060187/61057426-4e5a4600-a3c3-11e9-9114-630743e05814.png' width='48px'> , Yup <img src='https://cdn.icon-icons.com/icons2/2000/PNG/512/cool_smiley_sunglasses_icon_123402.png' width='20px'> , JWT <img src='https://jwt.io/img/pic_logo.svg' width='26px'> and daisyUI authentification app, with refresh token logic 🙌
 
 ### 💻 Stack: <br/>
 
@@ -16,6 +16,8 @@
 <br/>
 <img src='https://cdn.icon-icons.com/icons2/3914/PNG/512/daisyui_logo_icon_249080.png' width='32px'>[daisyUI](https://daisyui.com/)<br/>
 <img src='https://jwt.io/img/pic_logo.svg' width='26px'> [JWT](https://jwt.io/)
+<br/>
+<img src='https://cdn.icon-icons.com/icons2/2107/PNG/512/file_type_docker_icon_130643.png' width='32px'> [Docker](https://www.docker.com/)
 
 ## Description 📑
 
@@ -74,16 +76,45 @@ When sending request to **/me** and **/logout** endpoints, set authorization hea
 
 If you change the API base url of a Back-End application (values of **BASE_URL** and **PORT** in **./backend/.env** file), then you need to change the value of **REACT_APP_API_BASE_URL** in the **./frontend/.env** file aswell.
 
-## Run the dev server 👨‍💻
+## Run the dev server locally👨‍💻
 
-Navigate to **backend** folder and run:
+### Navigate to **backend** folder and run:
 
 ```
 npm run dev
 ```
 
-Navigate to **frontend** folder and run:
+The **_backend_** will run on port **5000**
+
+### Navigate to **frontend** folder and run:
 
 ```
 npm start
 ```
+
+The **_frontend_** will run on port **3000**
+
+## Run the app with Docker 🐋
+
+In the **root** folder run the following command:
+
+```
+docker-compose up -d
+```
+
+The app will run in detachment mode and there are going to be created **3** containers for each **service**:
+
+- **_backend_** - running on port **_5000_**
+- **_frontend_** - running on port **_3000_**
+- **_mongodb_** - running on MongoDB port **_27017_**
+
+On the initial app run, test user is going to be inserted in the database via mongo-init file (**./backend/db/mongo-init/init.js file\_**)
+
+You can test the login page with credentials:
+
+- username: **_testuser123_** / email: **_testuser123@email.com_**
+- password: **_Testuser123\*_**
+
+## Note:
+
+Since **_backend_** service in this **_docker-compose.yaml_** file is depending on **mongodb** docker service, and in the **mongo-init** file we are initializing the test user in the **"mern-auth-refresh-token"** database, the **_MONGO_URL_** value in the **_.env_** file should be the following: **mongodb://mongodb:27017/mern-auth-refresh-token**

@@ -1,0 +1,6 @@
+{
+    "prettier.singleQuote": true,
+    "autoimport.useSemiColon": true,
+    "prettier.semi": false,
+    "prettier.jsxSingleQuote": true
+}
