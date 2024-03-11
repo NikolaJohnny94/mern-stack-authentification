@@ -79,7 +79,7 @@ export const Login = () => {
           type='text'
           name='loginIdentifier'
           placeholder='Enter your username or email'
-          className='input input-bordered w-full max-w-xs'
+          className='input input-bordered w-full max-w-xs mb-[20px]'
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.loginIdentifier}
@@ -87,13 +87,12 @@ export const Login = () => {
         {formik.touched.loginIdentifier && formik.errors.loginIdentifier && (
           <ValidationError message={formik.errors.loginIdentifier} />
         )}
-        <br />
         <input
           id='password'
           type='password'
           name='password'
           placeholder='Enter your password'
-          className='input input-bordered w-full max-w-xs'
+          className='input input-bordered w-full max-w-xs my-[20px]'
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.password}

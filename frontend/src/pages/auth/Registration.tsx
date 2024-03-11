@@ -81,7 +81,7 @@ export const Registration = () => {
           type='text'
           name='username'
           placeholder='Enter your username'
-          className='input input-bordered w-full max-w-xs'
+          className='input input-bordered w-full max-w-xs mb-[20px]'
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.username}
@@ -89,13 +89,12 @@ export const Registration = () => {
         {formik.touched.username && formik.errors.username && (
           <ValidationError message={formik.errors.username} />
         )}
-        <br />
         <input
           id='email'
           type='email'
           name='email'
           placeholder='Enter your email'
-          className='input input-bordered w-full max-w-xs'
+          className='input input-bordered w-full max-w-xs my-[20px]'
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.email}
@@ -103,13 +102,12 @@ export const Registration = () => {
         {formik.touched.email && formik.errors.email && (
           <ValidationError message={formik.errors.email} />
         )}
-        <br />
         <input
           id='password'
           type='password'
           name='password'
           placeholder='Enter your password'
-          className='input input-bordered w-full max-w-xs'
+          className='input input-bordered w-full max-w-xs my-[20px]'
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.password}
@@ -117,13 +115,12 @@ export const Registration = () => {
         {formik.touched.password && formik.errors.password && (
           <ValidationError message={formik.errors.password} />
         )}
-        <br />
         <input
           id='confirmPassword'
           type='password'
           name='confirmPassword'
           placeholder='Confirm your passowrd'
-          className='input input-bordered w-full max-w-xs'
+          className='input input-bordered w-full max-w-xs my-[20px]'
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.confirmPassword}
